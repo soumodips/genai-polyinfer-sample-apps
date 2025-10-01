@@ -10,3 +10,7 @@ A collection of sample applications demonstrating the integration and usage of t
 - **Vue TypeScript Example** (`vue-ts-example/`): Vue.js application with PolyInfer components.
 
 Each example includes its own README with setup and usage instructions.
+
+## Main Package
+
+For more information about the GenAI PolyInfer library, see the [main package README](https://github.com/soumodips/genai-polyinfer/blob/main/README.md).
