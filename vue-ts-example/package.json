@@ -12,7 +12,7 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "dotenv": "^17.2.2",
-    "genai-polyinfer": "^1.0.5",
+    "genai-polyinfer": "^1.0.6",
     "vue": "^3.2.13"
   },
   "devDependencies": {

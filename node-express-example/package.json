@@ -17,7 +17,7 @@
   "dependencies": {
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
-    "genai-polyinfer": "^1.0.5"
+    "genai-polyinfer": "^1.0.6"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
