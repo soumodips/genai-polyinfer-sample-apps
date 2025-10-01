@@ -1,0 +1,55 @@
+<div class="metrics">
+  <h2>📊 Metrics</h2>
+  <p>Get current performance metrics for all providers.</p>
+
+  <div class="metrics-actions">
+    <button (click)="fetchMetrics()" [disabled]="loading">
+      {{ loading ? '🔄 Refreshing...' : '🔄 Refresh Metrics' }}
+    </button>
+    <button (click)="handleResetMetrics()" [disabled]="loading" class="secondary">
+      🔄 Reset Metrics
+    </button>
+    <button (click)="handleClearCache()" [disabled]="loading" class="secondary">
+      🗑️ Clear Cache
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    <h3>❌ Error</h3>
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="metrics" class="metrics-data">
+    <h3>📈 Provider Metrics</h3>
+    <div class="metrics-grid">
+      <div *ngFor="let metric of metrics.metrics | keyvalue" class="metric-card">
+        <h4>{{ metric.key }}</h4>
+        <div class="metric-stats">
+          <div class="stat">
+            <span class="stat-label">Success:</span>
+            <span class="stat-value success">{{ metric.value.success }}</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Failure:</span>
+            <span class="stat-value failure">{{ metric.value.failure }}</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Total:</span>
+            <span class="stat-value">{{ metric.value.count }}</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Avg Latency:</span>
+            <span class="stat-value">{{ metric.value.latency }}ms</span>
+          </div>
+          <div *ngIf="metric.value.count > 0" class="stat">
+            <span class="stat-label">Success Rate:</span>
+            <span class="stat-value">
+              {{ ((metric.value.success / metric.value.count) * 100) | number:'1.1-1' }}%
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="timestamp">Last updated: {{ metrics.timestamp | date:'medium' }}</p>
+  </div>
+</div>

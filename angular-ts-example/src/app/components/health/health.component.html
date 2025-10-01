@@ -1,0 +1,49 @@
+<div class="health">
+  <h2>❤️ Health Check</h2>
+  <p>Check the health status of the application.</p>
+
+  <button (click)="checkHealth()" [disabled]="loading">
+    {{ loading ? '🔄 Checking...' : '🔄 Check Health' }}
+  </button>
+
+  <div *ngIf="error" class="error-message">
+    <h3>❌ Error</h3>
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="health" class="health-status">
+    <h3>🏥 Health Status</h3>
+    <div class="health-details">
+      <div class="health-item">
+        <strong>Status:</strong>
+        <span class="status" [ngClass]="{'healthy': health.status === 'healthy', 'unhealthy': health.status !== 'healthy'}">
+          {{ health.status === 'healthy' ? '✅ Healthy' : '❌ Unhealthy' }}
+        </span>
+      </div>
+      <div class="health-item">
+        <strong>Version:</strong> {{ health.version }}
+      </div>
+      <div class="health-item">
+        <strong>Timestamp:</strong> {{ health.timestamp | date:'medium' }}
+      </div>
+    </div>
+  </div>
+
+  <div class="system-info">
+    <h3>ℹ️ System Information</h3>
+    <div class="info-details">
+      <div class="info-item">
+        <strong>Framework:</strong> Angular + TypeScript
+      </div>
+      <div class="info-item">
+        <strong>Package:</strong> genai-polyinfer
+      </div>
+      <div class="info-item">
+        <strong>Features:</strong> Multi-provider orchestration, caching, metrics, logging
+      </div>
+      <div class="info-item">
+        <strong>Providers:</strong> OpenAI, Anthropic, Google Gemini, Grok, Ollama, Mock
+      </div>
+    </div>
+  </div>
+</div>

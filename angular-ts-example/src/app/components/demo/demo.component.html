@@ -1,0 +1,80 @@
+<div class="demo">
+  <h2>🎭 Demo</h2>
+  <p>Test both synchronous and concurrent modes with the same prompt.</p>
+
+  <div class="demo-form">
+    <div class="form-group">
+      <label for="demo-prompt">Prompt:</label>
+      <textarea
+        id="demo-prompt"
+        [(ngModel)]="prompt"
+        name="prompt"
+        placeholder="Enter your prompt here..."
+        rows="3"
+      ></textarea>
+    </div>
+
+    <div class="example-prompts">
+      <label>Example prompts:</label>
+      <div class="prompt-buttons">
+        <button
+          *ngFor="let example of examplePrompts; let i = index"
+          type="button"
+          (click)="setPrompt(example)"
+          class="example-button"
+        >
+          {{ example }}
+        </button>
+      </div>
+    </div>
+
+    <button (click)="handleRunDemo()" [disabled]="loading || !prompt.trim()">
+      {{ loading ? '🔄 Running Demo...' : '🚀 Run Demo' }}
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    <h3>❌ Error</h3>
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="demoResult" class="demo-results">
+    <h3>✅ Demo Results</h3>
+    <p><strong>Prompt:</strong> {{ demoResult.prompt }}</p>
+
+    <div class="results-comparison">
+      <div class="result-column">
+        <h4>🔄 Synchronous Mode</h4>
+        <div class="result-content">
+          <p><strong>Response:</strong></p>
+          <div class="response-text">{{ demoResult.results.synchronous.response }}</div>
+          <details>
+            <summary>Raw Response</summary>
+            <pre>{{ demoResult.results.synchronous.raw_response | json }}</pre>
+          </details>
+        </div>
+      </div>
+
+      <div class="result-column">
+        <h4>⚡ Concurrent Mode</h4>
+        <div class="result-content">
+          <p><strong>Response:</strong></p>
+          <div class="response-text">{{ demoResult.results.concurrent.response }}</div>
+          <details>
+            <summary>Raw Response</summary>
+            <pre>{{ demoResult.results.concurrent.raw_response | json }}</pre>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <div class="metrics-after-demo">
+      <h4>📊 Metrics After Demo</h4>
+      <div class="metrics-summary">
+        <div *ngFor="let metric of demoResult.metrics | keyvalue" class="metric-summary">
+          <strong>{{ metric.key }}:</strong> {{ metric.value.success }} success, {{ metric.value.failure }} failure, {{ metric.value.latency }}ms avg latency
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

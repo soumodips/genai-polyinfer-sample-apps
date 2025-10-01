@@ -1,0 +1,110 @@
+<template>
+  <div class="config">
+    <h2>⚙️ Configuration</h2>
+    <p>Get the current configuration (API keys are not exposed).</p>
+    <div class="info-message">
+      <p><strong>💡 Note:</strong> Configurations can be updated in <code>polyinfer.config.ts</code>.</p>
+    </div>
+
+    <button @click="refreshConfig" :disabled="loading">
+      {{ loading ? '🔄 Loading...' : '🔄 Refresh Config' }}
+    </button>
+
+    <div v-if="error" class="error-message">
+      <h3>❌ Error</h3>
+      <p>{{ error }}</p>
+    </div>
+
+    <div v-if="configData" class="config-data">
+      <h3>🔧 Current Configuration</h3>
+
+      <div class="config-section">
+        <h4>Global Settings</h4>
+        <div class="config-item">
+          <strong>Mode:</strong> {{ configData.config.mode }}
+        </div>
+        <div class="config-item">
+          <strong>Consecutive Success:</strong> {{ configData.config.consecutive_success }}
+        </div>
+        <div class="config-item">
+          <strong>Logging:</strong> {{ configData.config.logging ? 'Enabled' : 'Disabled' }}
+        </div>
+        <div class="config-item">
+          <strong>Metrics:</strong> {{ configData.config.metrics ? 'Enabled' : 'Disabled' }}
+        </div>
+        <div class="config-item">
+          <strong>Cache:</strong> {{ configData.config.cache.enabled ? 'Enabled (' + configData.config.cache.ttl + 'ms TTL)' : 'Disabled' }}
+        </div>
+      </div>
+
+      <div class="config-section">
+        <h4>Providers ({{ configData.config.providers.length }})</h4>
+        <div class="providers-grid">
+          <div v-for="(provider, index) in configData.config.providers" :key="index" class="provider-card">
+            <h5>{{ provider.name }}</h5>
+            <div class="provider-details">
+              <div class="config-item">
+                <strong>API URL:</strong> <code>{{ provider.api_url }}</code>
+              </div>
+              <div class="config-item">
+                <strong>Model:</strong> {{ provider.model }}
+              </div>
+              <div class="config-item">
+                <strong>API Keys from Env:</strong> {{ provider.api_key_from_env.join(', ') }}
+              </div>
+              <div class="config-item">
+                <strong>API Key Fallback Strategy:</strong> {{ provider.api_key_fallback_strategy }}
+              </div>
+              <div v-if="provider.api_key_fallback_count" class="config-item">
+                <strong>API Key Fallback Count:</strong> {{ provider.api_key_fallback_count }}
+              </div>
+              <div v-if="provider.api_key_fallback_indices" class="config-item">
+                <strong>API Key Fallback Indices:</strong> {{ provider.api_key_fallback_indices.join(', ') }}
+              </div>
+              <div v-if="provider.api_key_fallback_range_start && provider.api_key_fallback_range_end" class="config-item">
+                <strong>API Key Fallback Range:</strong> {{ provider.api_key_fallback_range_start }} - {{ provider.api_key_fallback_range_end }}
+              </div>
+              <div class="config-item">
+                <strong>Response Path:</strong> <code>{{ provider.responsePath }}</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { usePolyInfer } from '../composables/usePolyInfer.js'
+
+export default {
+  name: 'AppConfig',
+  setup() {
+    return usePolyInfer()
+  },
+  data() {
+    return {
+      configData: null
+    }
+  },
+  mounted() {
+    this.fetchConfig()
+  },
+  methods: {
+    async fetchConfig() {
+      const result = await this.getConfigData()
+      if (result.success) {
+        this.configData = result
+      }
+    },
+    refreshConfig() {
+      window.location.reload()
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* Component specific styles can be added here if needed */
+</style>

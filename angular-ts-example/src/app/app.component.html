@@ -1,0 +1,34 @@
+<div class="app">
+  <header class="app-header">
+    <h1>🚀 GenAI-PolyInfer Angular Example</h1>
+    <p>Demonstrating all features of the genai-polyinfer package</p>
+  </header>
+
+  <nav class="tab-navigation">
+    <button
+      *ngFor="let tab of tabs"
+      class="tab-button"
+      [class.active]="activeTab === tab.id"
+      (click)="setActiveTab(tab.id)"
+    >
+      {{ tab.label }}
+    </button>
+  </nav>
+
+  <main class="tab-content">
+    <ng-container [ngSwitch]="activeTab">
+      <app-ai-request *ngSwitchCase="'ai'"></app-ai-request>
+      <app-metrics *ngSwitchCase="'metrics'"></app-metrics>
+      <app-config *ngSwitchCase="'config'"></app-config>
+      <app-demo *ngSwitchCase="'demo'"></app-demo>
+      <app-health *ngSwitchCase="'health'"></app-health>
+    </ng-container>
+  </main>
+
+  <footer class="app-footer">
+    <p>
+      Built with Angular + TypeScript |
+      Powered by <a href="https://github.com/soumik12345/genai-polyinfer" target="_blank" rel="noopener noreferrer">genai-polyinfer</a>
+    </p>
+  </footer>
+</div>
